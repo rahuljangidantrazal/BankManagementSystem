@@ -9,10 +9,10 @@ import static util.TableQueries.CREATE_TABLES;
 
 public class DBConfig {
     private static final String DB_NAME = "bank_db";
-    private static final String USER = "root";
-    private static final String PASSWORD = "0000";
-    private static final String BASE_URL = "jdbc:mysql://localhost:3306/";
-    private static final String DB_URL = BASE_URL + DB_NAME + "?useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String USER = *****
+    private static final String PASSWORD = ****
+    private static final String BASE_URL = ****
+    private static final String DB_URL = BASE_URL + DB_NAME + *****
 
     private static boolean initialized = false;
 
