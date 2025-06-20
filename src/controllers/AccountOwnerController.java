@@ -6,6 +6,22 @@ import java.util.List;
 
 import repo.AccountOwnerRepo;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   AccountOwnerController.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This controller class provides a centralized interface for managing account 
+//  *                      ownership operations. It interacts with the AccountOwnerService to perform 
+//  *                      actions like adding owners, checking if a user is already an owner, retrieving 
+//  *                      all owners of an account, soft-deleting accounts, and verifying joint ownership.
+//  *                      It follows the Singleton pattern to ensure consistent access across the application.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class AccountOwnerController {
 
     private static final AccountOwnerController instance = new AccountOwnerController();

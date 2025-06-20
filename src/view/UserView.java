@@ -9,6 +9,26 @@ import static util.InputUtil.*;
 
 import java.util.Scanner;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   UserView.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class handles the console-based UI for user-related actions such as 
+//  *                      user registration (currently customer only) and login for different user roles 
+//  *                      (Customer, Cashier, Manager). It directs the flow to the appropriate role-specific 
+//  *                      views upon successful authentication.
+//  *
+//  *                      Provided Methods:
+//  *                      - registerCustomer()
+//  *                      - loginMenu()
+//  *                      - handleUserLogin(UserTypeEnum)
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  ********************************************************************************************************
+
 public class UserView {
     private static final Scanner sc = new Scanner(System.in);
 

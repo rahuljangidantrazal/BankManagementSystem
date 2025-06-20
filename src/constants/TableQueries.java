@@ -1,4 +1,4 @@
-package util;
+package constants;
 
 public class TableQueries {
         public static final String[] CREATE_TABLES = {

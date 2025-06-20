@@ -17,6 +17,27 @@ import static util.TablePrinterUtil.*;
 
 import static constants.ViewMessages.AllViewMessages.*;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   ManagerView.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class handles the console-based UI for the Manager role. It provides
+//  *                      functionality for managers to approve or reject loan applications,
+//  *                      view loan history by customer PAN, and view transaction history by PAN
+//  *                      within their branch and bank context.
+//  *
+//  *                      Provided Methods:
+//  *                      - showDashboard(User)
+//  *                      - handleApproveLoans(User)
+//  *                      - handleLoanHistoryByPan()
+//  *                      - handleTransactionHistoryByPan(User)
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  ********************************************************************************************************
+
 public class ManagerView {
 
     private final LoanController loanController = LoanController.getInstance();

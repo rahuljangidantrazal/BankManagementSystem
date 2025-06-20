@@ -1,6 +1,8 @@
 package view;
 
 import model.*;
+import util.validators.EmailValidator;
+import util.validators.PasswordValidator;
 import controllers.*;
 
 import java.util.Scanner;
@@ -8,6 +10,40 @@ import java.util.Scanner;
 import static util.InputUtil.*;
 import static util.TablePrinterUtil.*;
 import static constants.ViewMessages.AllViewMessages.*;
+import static constants.Messages.UserServiceMessages.*;
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   CustomerView.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class handles the console-based UI for the Customer role. It allows
+//  *                      customers to manage their bank accounts, including deposit, withdrawal, 
+//  *                      view balance and transaction history, undo recent transactions, apply 
+//  *                      for loans, print passbook, view/edit profile, and delete accounts.
+//  *
+//  *                      Provided Methods:
+//  *                      - start(User customer)
+//  *                      - showDashboard(User customer, Account account)
+//  *                      - handleDeposit(Account, User)
+//  *                      - handleWithdraw(Account, User)
+//  *                      - handleViewTransactionHistory(Account)
+//  *                      - handleUndoTransaction(Account, User)
+//  *                      - handleViewBalance(Account)
+//  *                      - handleAddJointHolder(Account, User)
+//  *                      - handleEditProfile(User)
+//  *                      - handleAccountDetails(Account, User)
+//  *                      - handleApplyLoan(User, Account)
+//  *                      - handleLoanHistory(Account)
+//  *                      - handleDeleteAccount(Account, User)
+//  *                      - handlePrintPassbook(Account)
+//  *                      - printUserDetails(User)
+//  *                      - editUserDetails(int userId)
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
 
 public class CustomerView {
 
@@ -160,7 +196,7 @@ public class CustomerView {
         boolean hasJoint = AccountOwnerController.getInstance().hasJointHolder(account.getAccountId());
 
         if (hasJoint) {
-            print(JOINT_ACCOUNT_EXISTS);
+            print(JOINT_ACCOUNT_EXIST);
         } else {
             userController.addJointHolder(account.getAccountId(), customer.getUserId());
         }
@@ -185,16 +221,48 @@ public class CustomerView {
         print(IFSC_CODE_LABEL + details.getBranch().getIfscCode());
 
         print(PRIMARY_USER_LABEL);
-        userController.printUserDetails(details.getPrimaryHolder());
+        printUserDetails(details.getPrimaryHolder());
 
         if (!details.getJointHolders().isEmpty()) {
             print(JOINT_HOLDERS_LABEL);
             for (User joint : details.getJointHolders()) {
-                userController.printUserDetails(joint);
+                printUserDetails(joint);
                 print(JOINT_DIVIDER);
             }
         }
         goBack();
+    }
+
+    public void editUserDetails(int userId) {
+        User user = userController.editUserDetails(userId);
+        if (user == null) {
+            print(USER_NOT_FOUND_OR_INACTIVE);
+            return;
+        }
+
+        print(EDITING_DETAILS_FOR + user.getFirstName() + SPACE + user.getLastName());
+
+        String newPhone = readValidatedField(ENTER_PHONE_EDIT + user.getPhone() + END_BRACKET,
+                input -> input.matches(PHONE_REGEX) ? null : PHONE_INVALID, user.getPhone());
+
+        String newEmail = readValidatedField(ENTER_EMAIL_EDIT + user.getEmail() + END_BRACKET,
+                EmailValidator::getErrorMessage, user.getEmail());
+
+        String newPassword = readValidatedField(ENTER_NEW_PASS,
+                PasswordValidator::getErrorMessage);
+
+        boolean updated = userController.updateUserDetails(userId, newPhone, newEmail, newPassword);
+
+        print(updated ? USER_UPDATE_SUCCESS : USER_UPDATE_FAILED);
+    }
+
+    private void printUserDetails(User user) {
+        print(PRINT_NAME + user.getFirstName() + SPACE + user.getLastName());
+        print(PRINT_USERNAME + user.getUsername());
+        print(PRINT_EMAIL + user.getEmail());
+        print(PRINT_PHONE + user.getPhone());
+        print(PRINT_AADHAR + user.getAadhar());
+        print(PRINT_PAN + user.getPan());
     }
 
     private void handleApplyLoan(User customer, Account account) {

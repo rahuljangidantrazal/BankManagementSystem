@@ -2,6 +2,22 @@ package model;
 
 import java.time.LocalDateTime;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   Transaction.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class represents a financial transaction performed on a bank account. 
+//  *                      It includes details such as the transaction ID, account ID, performer ID, 
+//  *                      amount, transaction type (deposit/withdraw), timestamp, status (e.g., undone), 
+//  *                      and metadata such as performer name, bank name, and branch name. 
+//  *                      It is used to track and manage account activity in the banking system.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class Transaction {
     private int transactionId;
     private int accountId;

@@ -8,6 +8,22 @@ import static util.InputUtil.*;
 import java.util.List;
 import java.util.Scanner;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   BankService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class manages user interactions related to bank creation 
+//  *                      and listing. It acts as a bridge between the console-based UI and the 
+//  *                      BankRepo for persisting and retrieving bank-related data. It supports 
+//  *                      prompting user input, creating banks with minimum balance validation, 
+//  *                      and displaying all available banks.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class BankService {
 
     private static BankService instance;

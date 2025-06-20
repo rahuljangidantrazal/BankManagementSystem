@@ -1,5 +1,21 @@
 package model;
 
+// *********************************************************************************************************
+
+//  *  JAVA Class Name :   Branch.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class represents a branch of a bank in the system. It holds information 
+//  *                      such as the branch ID, associated bank ID, branch name, and its unique IFSC code. 
+//  *                      This entity helps associate user accounts and transactions with a specific 
+//  *                      bank branch.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class Branch {
     private int branchId;
     private int bankId;

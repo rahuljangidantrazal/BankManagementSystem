@@ -1,5 +1,20 @@
 package model;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   Account.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class represents a bank account within the system. It holds account-related
+//  *                      data such as account number, associated branch ID, current balance, and status. 
+//  *                      It also includes helper methods for checking account 
+//  *                      state and standard getter/setter methods for encapsulation.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class Account {
 
     private int accountId;

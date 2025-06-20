@@ -13,6 +13,24 @@ import constants.Messages;
 import static util.InputUtil.*;
 import static constants.RepoMessages.*;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   UserRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class manages all direct database operations related to the User 
+//  *                      entity. It supports functionalities such as user registration, login validation, 
+//  *                      existence checks (by phone, email, PAN, Aadhar), admin initialization, updates, 
+//  *                      and branch role assignments (e.g., checking for Manager). It follows the Singleton 
+//  *                      pattern to ensure centralized access to persistence logic across the system.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
 public class UserRepo {
     private static UserRepo instance;
 

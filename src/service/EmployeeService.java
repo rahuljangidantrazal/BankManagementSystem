@@ -14,6 +14,21 @@ import static util.TablePrinterUtil.printLoanTable;
 import static util.TablePrinterUtil.printTransactionTable;
 import constants.Messages;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   EmployeeService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class provides business functionalities accessible to bank employees 
+//  *                      such as Cashiers and Managers. It enables employees to retrieve and display 
+//  *                      customer transaction and loan histories using PAN. It acts as a mediator between 
+//  *                      the UI layer and underlying repositories like LoanRepo and TransactionRepo.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class EmployeeService {
 
     private static final EmployeeService instance = new EmployeeService();
@@ -22,7 +37,8 @@ public class EmployeeService {
     private final TransactionRepo transactionRepo = TransactionRepo.getInstance();
     private final AccountRepo accountRepo = AccountRepo.getInstance();
 
-    private EmployeeService() {}
+    private EmployeeService() {
+    }
 
     public static EmployeeService getInstance() {
         return instance;

@@ -169,6 +169,20 @@ public class ViewMessages {
 
                 public static final String LOGGING_OUT = "Logging out...";
 
+                public static final String PRINT_NAME = "Name        : ";
+                public static final String PRINT_USERNAME = "Username    : ";
+                public static final String PRINT_EMAIL = "Email       : ";
+                public static final String PRINT_PHONE = "Phone       : ";
+                public static final String PRINT_AADHAR = "Aadhar      : ";
+                public static final String PRINT_PAN = "PAN         : ";
+
+                public static final String EDITING_DETAILS_FOR = "Editing details for: ";
+                public static final String SPACE = " ";
+                public static final String ENTER_PHONE_EDIT = "Enter Phone [ Old - ";
+                public static final String ENTER_EMAIL_EDIT = "Enter Email [ Old - ";
+                public static final String END_BRACKET = "]";
+                public static final String ENTER_NEW_PASS = "Enter New Password ";
+
                 // ===Main View===
                 public static final String MAIN_MENU = """
 
@@ -230,7 +244,7 @@ public class ViewMessages {
                 public static final String INVALID_AMOUNT_ERROR = "Invalid amount.";
                 public static final String IS_JOINT_ACCOUNT_PROMPT = "Is this a joint account?";
                 public static final String JOINT_ACCOUNT_PREFIX = "Joint Account ";
-                public static final String JOINT_ACCOUNT_EXISTS = "This account already has a joint holder.";
+                public static final String JOINT_ACCOUNT_EXIST = "This account already has a joint holder.";
 
                 // === User View ===
                 public static final String USER_LOGIN_MENU_BLOCK = """

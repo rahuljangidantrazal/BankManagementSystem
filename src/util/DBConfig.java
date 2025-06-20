@@ -3,9 +3,9 @@ package util;
 import java.sql.*;
 
 import repo.UserRepo;
-import static util.InputUtil.*;
 
-import static util.TableQueries.CREATE_TABLES;
+import static constants.TableQueries.CREATE_TABLES;
+import static util.InputUtil.*;
 
 public class DBConfig {
     private static final String DB_NAME = "bank_db";

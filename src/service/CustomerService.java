@@ -12,6 +12,22 @@ import repo.UserRepo;
 
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   CustomerService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class handles all business operations available to customers.
+//  *                      It provides functionalities such as viewing accounts, depositing, withdrawing, 
+//  *                      checking balances, undoing recent transactions, and viewing account details 
+//  *                      (including joint holders and branch info). It interacts with repositories and 
+//  *                      the TransactionService to encapsulate core customer logic.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class CustomerService {
     private static final CustomerService instance = new CustomerService();
     private final TransactionService txnService = new TransactionService();

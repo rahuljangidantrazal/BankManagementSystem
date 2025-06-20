@@ -17,6 +17,31 @@ import static util.InputUtil.*;
 import static constants.ViewMessages.AllViewMessages.*;
 import static constants.Messages.BankMessages;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   AdminView.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class handles the console-based UI for the Admin role. It provides 
+//  *                      interaction flows to create banks, branches, employees (manager/cashier), 
+//  *                      and view customer transaction history by PAN.
+//  *
+//  *                      Provided Methods:
+//  *                      - login()
+//  *                      - adminMenu()
+//  *                      - handleCreateBank()
+//  *                      - handleCreateBranch()
+//  *                      - handleCreateBranch(int bankId)
+//  *                      - handleCreateEmployee()
+//  *                      - handleCreateEmployee(int bankId, int branchId)
+//  *                      - chooseEmployeeType(int branchId)
+//  *                      - handleTransactionHistoryByPan()
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class AdminView {
     private static final Scanner sc = new Scanner(System.in);
     private static final AdminController adminController = AdminController.getInstance();

@@ -10,6 +10,24 @@ import java.util.List;
 import static util.InputUtil.*;
 import static constants.RepoMessages.*;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   BranchRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class manages all direct database operations related to bank 
+//  *                      branches. It includes functionality to create new branches, check IFSC existence, 
+//  *                      fetch branch details by ID or bank, and resolve mapping between branch and bank IDs. 
+//  *                      The class uses the Singleton pattern to maintain a consistent and centralized access 
+//  *                      point for all branch-related operations throughout the system.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
 public class BranchRepo {
 
     private static BranchRepo instance;

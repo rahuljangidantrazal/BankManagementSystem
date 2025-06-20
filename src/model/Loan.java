@@ -4,6 +4,23 @@ import java.time.LocalDateTime;
 
 import constants.Messages.LoanMessages;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   Loan.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class represents a loan request made by a customer in the banking system. 
+//  *                      It includes details such as the associated account ID, loan amount, application 
+//  *                      date, approval status, approving manager (if any), and reason for the loan. 
+//  *                      It also provides helper methods for checking loan approval status and updating 
+//  *                      the loan status (approve/reject). Used as a domain model and for tracking loan 
+//  *                      lifecycle in the application.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class Loan {
     private int loanId;
     private int accountId;

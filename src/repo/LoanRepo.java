@@ -9,6 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 import static constants.RepoMessages.*;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   LoanRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class handles all direct database operations related to loans. 
+//  *                      It supports applying for loans (auto/manual), updating loan status, retrieving 
+//  *                      pending or approved loans by account ID or PAN, and encapsulates result mapping 
+//  *                      for Loan objects. It follows the Singleton pattern to provide a single consistent 
+//  *                      access point for loan-related persistence operations.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
 public class LoanRepo {
 
     private static final LoanRepo instance = new LoanRepo();

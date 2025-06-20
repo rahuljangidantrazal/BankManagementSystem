@@ -2,7 +2,7 @@ package constants;
 
 public class RepoMessages {
 
-    // AccountOwnerRepo SQL Queries
+    // --- AccountOwnerRepo ---
     public static final String ADD_OWNER = "INSERT INTO Account_Owner (account_id, user_id, is_primary) VALUES (?, ?, ?)";
 
     public static final String IS_USER_ALREADY_OWNER = "SELECT COUNT(*) FROM Account_Owner WHERE account_id = ? AND user_id = ?";
@@ -24,7 +24,7 @@ public class RepoMessages {
 
     public static final String HAS_JOINT_HOLDER = "SELECT COUNT(*) FROM Account_Owner WHERE account_id = ? AND is_active = TRUE";
 
-    // --- AccountRepo Queries ---
+    // --- AccountRepo ---
     public static final String INSERT_ACCOUNT = "INSERT INTO Account (account_number, branch_id, balance, status) VALUES (?, ?, ?, ?)";
     public static final String SELECT_ACCOUNT_BY_ID = "SELECT * FROM Account WHERE account_id = ?";
     public static final String DEPOSIT_TO_ACCOUNT = "UPDATE Account SET balance = balance + ? WHERE account_id = ?";

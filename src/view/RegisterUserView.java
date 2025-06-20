@@ -21,6 +21,30 @@ import constants.ViewMessages.AllViewMessages;
 
 import static util.InputUtil.*;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   RegisterUserView.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class handles the console-based UI for registering new users/customers.
+//  *                      It provides interactive flows to select a bank and branch, validate user details,
+//  *                      support joint accounts, collect initial deposits, and display account creation summary.
+//  *
+//  *                      Provided Methods:
+//  *                      - registerNewCustomer(List<Bank>)
+//  *                      - selectBank(List<Bank>)
+//  *                      - selectBranch(List<Branch>)
+//  *                      - collectBasicUserDetails(boolean, String)
+//  *                      - collectBasicUserDetails(boolean)
+//  *                      - readInitialDeposit(double)
+//  *                      - askIsJointAccount()
+//  *                      - printAccountCreationSummary(Account, Branch, User, boolean, Integer)
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  ********************************************************************************************************
+
 public class RegisterUserView {
 
     private static final Scanner sc = new Scanner(System.in);
@@ -177,7 +201,7 @@ public class RegisterUserView {
 
     public static double readInitialDeposit(double minBalance) {
         while (true) {
-           System.out.printf(AllViewMessages.INITIAL_DEPOSIT_PROMPT, minBalance);
+            System.out.printf(AllViewMessages.INITIAL_DEPOSIT_PROMPT, minBalance);
             try {
                 double amount = Double.parseDouble(sc.nextLine());
                 if (amount >= minBalance)

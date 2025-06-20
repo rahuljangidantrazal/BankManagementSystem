@@ -14,6 +14,22 @@ import static util.InputUtil.*;
 
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   AdminService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class handles business operations available to Admin users,
+//  *                      including creating banks and branches, managing employee (manager/cashier)
+//  *                      creation, verifying branch-manager mapping, and displaying bank-branch
+//  *                      relationships. It interacts with multiple repositories and utilities to 
+//  *                      coordinate data flow and business rules enforcement.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class AdminService {
     private static AdminService instance;
     private final BankRepo bankRepo = BankRepo.getInstance();
@@ -21,7 +37,8 @@ public class AdminService {
     private final UserRepo userRepo = UserRepo.getInstance();
     private final BranchService branchService = BranchService.getInstance();
 
-    private AdminService() {}
+    private AdminService() {
+    }
 
     public static AdminService getInstance() {
         if (instance == null) {
@@ -45,7 +62,8 @@ public class AdminService {
 
     public boolean createBranch(int bankId, String branchName) {
         Bank bank = getBankById(bankId);
-        if (bank == null) return false;
+        if (bank == null)
+            return false;
 
         String ifsc = IFSCUtil.generateUniqueIFSC(bank.getBankName(), branchRepo);
         Branch branch = new Branch(bankId, branchName, ifsc);

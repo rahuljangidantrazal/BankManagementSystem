@@ -9,6 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 import static constants.RepoMessages.*;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   TransactionRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class manages direct database operations related to financial 
+//  *                      transactions. It supports inserting transactions, retrieving transaction history 
+//  *                      by account ID or PAN, marking transactions as undone, and fetching the most recent 
+//  *                      transaction for undo capability. It follows the Singleton pattern to provide 
+//  *                      consistent and centralized access to transaction persistence logic.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
 public class TransactionRepo {
 
     private static TransactionRepo instance;

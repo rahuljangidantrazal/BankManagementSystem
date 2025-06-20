@@ -8,6 +8,25 @@ import static util.InputUtil.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   TablePrinterUtil.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This utility class handles formatted printing of loan and transaction data 
+//  *                      in a tabular format for the console UI. It formats and displays lists of 
+//  *                      transactions and loans for better readability and user experience.
+//  *
+//  *                      Provided Methods:
+//  *                      - printLoanTable(List<Loan>)
+//  *                      - printTransactionTable(List<Transaction>)
+//  *                      - printPassbook(List<Transaction>)
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class TablePrinterUtil {
 
     public static void printLoanTable(List<Loan> loans) {

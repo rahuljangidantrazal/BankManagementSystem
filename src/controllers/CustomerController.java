@@ -7,6 +7,23 @@ import service.CustomerService;
 
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   CustomerController.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This controller class provides a high-level interface for customer-specific 
+//  *                      operations in the banking system. It delegates business logic to the 
+//  *                      CustomerService and exposes functionality such as retrieving user accounts, 
+//  *                      performing deposits and withdrawals, checking balances, handling undoable 
+//  *                      transactions, and viewing detailed account information. 
+//  *                      The class follows the Singleton pattern for consistent access throughout the application.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class CustomerController {
     private static final CustomerController instance = new CustomerController();
     private static final CustomerService customerService = CustomerService.getInstance();

@@ -7,6 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 import static constants.RepoMessages.*;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   AccountOwnerRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class handles direct database interactions related to the 
+//  *                      account ownership table. It supports operations such as adding account owners, 
+//  *                      verifying ownership, soft deleting accounts, and checking for joint holders.
+//  *                      It follows the Singleton pattern to ensure a single shared instance is used 
+//  *                      across the system.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
+
 public class AccountOwnerRepo {
 
     private static AccountOwnerRepo instance;

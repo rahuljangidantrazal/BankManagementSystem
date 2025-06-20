@@ -5,6 +5,23 @@ import service.TransactionService;
 
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   TransactionController.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This controller class acts as an interface between the view layer and the 
+//  *                      TransactionService, facilitating operations related to financial transactions 
+//  *                      such as deposit, withdrawal, undo actions, and retrieving transaction history. 
+//  *                      It also supports searching transactions by PAN and bank name.
+//  *                      This class follows the Singleton pattern to maintain a consistent access point 
+//  *                      for transaction-related functionalities throughout the application.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class TransactionController {
     private static final TransactionController instance = new TransactionController();
     private static final TransactionService transactionService = TransactionService.getInstance();

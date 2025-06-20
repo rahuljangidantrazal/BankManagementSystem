@@ -6,6 +6,23 @@ import model.User;
 import model.UserTypeEnum;
 import service.UserService;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   UserController.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This controller class serves as the interface between the view layer and the 
+//  *                      UserService. It manages all user-related operations such as user registration, 
+//  *                      login validation (admin and typed users), profile updates, joint holder management, 
+//  *                      and various field-level validations (email, phone, Aadhar, PAN, username).
+//  *                      It also supports fetching user details by ID or Aadhar, and listing PANs in use.
+//  *                      This class follows the Singleton pattern to ensure consistent access across the system.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class UserController {
 
     private static final UserController instance = new UserController();
@@ -30,12 +47,12 @@ public class UserController {
         userService.registerUser();
     }
 
-    public void printUserDetails(User user) {
-        userService.printUserDetails(user);
+    public User editUserDetails(int userId) {
+        return userService.editUserDetails(userId);
     }
 
-    public void editUserDetails(int userId) {
-        userService.editUserDetails(userId);
+    public boolean updateUserDetails(int userId, String newPhone, String newEmail, String newPassword) {
+        return userService.updateUserDetails(userId, newPhone, newEmail, newPassword);
     }
 
     public void addJointHolder(int accountId, int primaryUserId) {

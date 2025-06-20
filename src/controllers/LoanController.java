@@ -6,6 +6,23 @@ import service.LoanService;
 
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   LoanController.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This controller class serves as an interface between the view layer and the 
+//  *                      LoanService, handling all loan-related operations in the banking system.
+//  *                      It provides methods to request a loan, approve or reject loan applications, 
+//  *                      update loan status, and retrieve loan history based on account or PAN.
+//  *                      The class follows the Singleton pattern to ensure centralized and consistent 
+//  *                      access to loan management functionalities.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class LoanController {
 
     private static final LoanController instance = new LoanController();

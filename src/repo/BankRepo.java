@@ -14,6 +14,24 @@ import static constants.RepoMessages.*;
 
 import model.Bank;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   BankRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class manages direct database interactions related to banks.
+//  *                      It provides functionality for creating banks, checking bank existence, retrieving 
+//  *                      banks by ID or name, and listing banks associated with a PAN. It ensures no duplicate 
+//  *                      bank creation and uses the Singleton pattern for consistent access across the system.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
+
 public class BankRepo {
 
     private static BankRepo instance;

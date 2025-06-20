@@ -5,10 +5,35 @@ import constants.Constants.InputMessages;
 import java.util.Scanner;
 import java.util.function.Function;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   InputUtil.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This utility class provides common input handling methods for the console-based 
+//  *                      user interface. It supports validated field entry, yes/no prompts, numeric parsing, 
+//  *                      and "go back" handling to improve user experience and standardize input flows.
+//  *
+//  *                      Provided Methods:
+//  *                      - print(String)
+//  *                      - print(String...)
+//  *                      - readNonEmpty(String)
+//  *                      - readNonEmpty(String, String)
+//  *                      - readValidatedField(String, Function<String, String>)
+//  *                      - readValidatedField(String, Function<String, String>, String)
+//  *                      - askYesOrNo(String)
+//  *                      - goBack()
+//  *                      - readValidatedInt(String)
+//  *                      - readDouble(String)
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class InputUtil {
     private static final Scanner sc = new Scanner(System.in);
 
-    // Print utility
     public static void print(String message) {
         if (message != null && !message.isBlank()) {
             System.out.println(message);
@@ -21,20 +46,17 @@ public class InputUtil {
         }
     }
 
-    // Read non-empty input using validator
     public static String readNonEmpty(String fieldName) {
         return readValidatedField(fieldName,
                 input -> input.isEmpty() ? fieldName + InputMessages.REQUIRED_FIELD : null);
     }
 
-    // Read non-empty input with default fallback
     public static String readNonEmpty(String prompt, String defaultValue) {
         System.out.print(prompt + " [" + defaultValue + "]: ");
         String input = sc.nextLine().trim();
         return input.isEmpty() ? defaultValue : input;
     }
 
-    // Read validated input (mandatory)
     public static String readValidatedField(String label, Function<String, String> validator) {
         while (true) {
             System.out.print(label + ": ");
@@ -47,7 +69,6 @@ public class InputUtil {
         }
     }
 
-    // Read validated input with default fallback
     public static String readValidatedField(String prompt, Function<String, String> validator, String defaultValue) {
         while (true) {
             System.out.print(prompt + " [" + defaultValue + "]: ");
@@ -63,7 +84,6 @@ public class InputUtil {
         }
     }
 
-    // Ask Y/N
     public static boolean askYesOrNo(String message) {
         while (true) {
             System.out.print(message + InputMessages.YES_NO_PROMPT_SUFFIX);
@@ -76,7 +96,6 @@ public class InputUtil {
         }
     }
 
-    // Wait for "0" to go back
     public static void goBack() {
         while (true) {
             System.out.print(InputMessages.ENTER_0_TO_GO_BACK);
@@ -87,7 +106,6 @@ public class InputUtil {
         }
     }
 
-    // Read integer with validation
     public static int readValidatedInt(String prompt) {
         while (true) {
             try {
@@ -98,7 +116,6 @@ public class InputUtil {
         }
     }
 
-    // Read double with validation
     public static double readDouble(String prompt) {
         while (true) {
             try {

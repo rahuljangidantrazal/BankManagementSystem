@@ -4,6 +4,23 @@ import repo.AccountOwnerRepo;
 
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   AccountOwnerService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class acts as a bridge between the business logic and the 
+//  *                      AccountOwnerRepo layer. It encapsulates operations related to ownership of 
+//  *                      accounts, including adding owners (primary/joint), verifying ownership, 
+//  *                      retrieving all owner IDs for a given account, checking if a user holds 
+//  *                      an account in a specific bank, and performing soft deletion of user ownership.
+//  *                      It uses the Singleton pattern for centralized service access.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class AccountOwnerService {
 
     private static final AccountOwnerService instance = new AccountOwnerService();

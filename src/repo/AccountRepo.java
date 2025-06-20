@@ -11,6 +11,24 @@ import static util.InputUtil.*;
 import constants.Messages;
 import static constants.RepoMessages.*;
 
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   AccountRepo.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This repository class manages direct database operations related to bank accounts. 
+//  *                      It includes methods for inserting new accounts, handling deposits and withdrawals, 
+//  *                      fetching balance and account information, soft closing accounts, and retrieving 
+//  *                      accounts by user or PAN. It follows the Singleton pattern to ensure a single 
+//  *                      instance is used across the application.
+//  * 
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
+
 public class AccountRepo {
 
     private static AccountRepo instance;

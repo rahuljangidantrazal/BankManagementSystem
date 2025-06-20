@@ -13,6 +13,22 @@ import static util.InputUtil.*;
 import java.util.List;
 import java.util.Scanner;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   BranchService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class handles operations related to branch creation and 
+//  *                      listing. It facilitates user input for branch creation, generates unique 
+//  *                      IFSC codes, and interacts with BranchRepo and BankRepo for persistence 
+//  *                      and validation. It supports retrieving branches by bank ID or branch ID, 
+//  *                      and provides display utilities for admin-related views.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class BranchService {
 
     private static BranchService instance;

@@ -7,12 +7,30 @@ import java.util.Scanner;
 import static constants.ViewMessages.AllViewMessages.*;
 import static util.InputUtil.*;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   MainView.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This class provides the main entry point for the console-based Bank Management System.
+//  *                      It initializes the database configuration and presents the main menu options to users.
+//  *                      Users can choose to login as Admin, login as User (Customer/Cashier/Manager),
+//  *                      register a new Customer, or exit the application.
+//  *
+//  *                      Provided Methods:
+//  *                      - start()
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)
+//  ********************************************************************************************************
+
 public class MainView {
 
     private static final Scanner sc = new Scanner(System.in);
 
     public static void start() {
-        DBConfig.initDatabase(); // Will look into it
+        DBConfig.initDatabase();
 
         while (true) {
             print(MAIN_MENU);

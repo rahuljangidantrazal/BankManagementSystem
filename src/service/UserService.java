@@ -5,12 +5,25 @@ import java.util.List;
 import model.*;
 import repo.*;
 import util.AccountUtil;
-import util.validators.EmailValidator;
-import util.validators.PasswordValidator;
 import view.RegisterUserView;
 
 import static util.InputUtil.*;
 import static constants.Messages.UserServiceMessages.*;
+
+// *********************************************************************************************************
+//  *  JAVA Class Name :   UserService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class provides business logic for user-related operations including
+//  *                      registration (with support for joint accounts), login validation (admin, customer,
+//  *                      employee), updating user profile, and checking existence by email, phone, PAN, etc.
+//  *                      It interacts with repositories and view layers for a complete user workflow.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
 
 public class UserService {
 
@@ -120,40 +133,20 @@ public class UserService {
         RegisterUserView.printAccountCreationSummary(account, selectedBranch, primaryUser, isJoint, jointUserId);
     }
 
-    public void printUserDetails(User user) {
-        print("Name        : " + user.getFirstName() + " " + user.getLastName());
-        print("Username    : " + user.getUsername());
-        print("Email       : " + user.getEmail());
-        print("Phone       : " + user.getPhone());
-        print("Aadhar      : " + user.getAadhar());
-        print("PAN         : " + user.getPan());
+    public User editUserDetails(int userId) {
+        User user = userRepo.findById(userId);
+        return (user != null && user.isActive()) ? user : null;
     }
 
-    public void editUserDetails(int userId) {
+    public boolean updateUserDetails(int userId, String phone, String email, String password) {
         User user = userRepo.findById(userId);
-        if (user == null || !user.isActive()) {
-            print(USER_NOT_FOUND_OR_INACTIVE);
-            return;
-        }
+        if (user == null || !user.isActive())
+            return false;
 
-        print("Editing details for: " + user.getFirstName() + " " + user.getLastName());
-
-        user.setPhone(readValidatedField("Enter Phone [" + user.getPhone() + "]",
-                input -> input.matches("\\d{10}") ? null : "Phone must be 10 digits.", user.getPhone())
-                + "Enter to Skip");
-
-        user.setEmail(readValidatedField("Enter Email [" + user.getEmail() + "]", EmailValidator::getErrorMessage,
-                user.getEmail()) + "Enter to Skip");
-
-        user.setPassword(
-                readValidatedField("Enter New Password", PasswordValidator::getErrorMessage) + "Enter to Skip");
-
-        boolean updated = userRepo.updateUser(user);
-        if (updated) {
-            print(USER_UPDATE_SUCCESS);
-        } else {
-            print(USER_UPDATE_FAILED);
-        }
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setPassword(password);
+        return userRepo.updateUser(user);
     }
 
     public void addJointHolder(int accountId, int primaryUserId) {

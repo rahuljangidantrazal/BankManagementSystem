@@ -15,6 +15,22 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// *********************************************************************************************************
+//  *  JAVA Class Name :   TransactionService.java
+//  *  Author          :   <Rahul Jangid>(rahul.jangid@antrazal.com) 
+//  *  Company         :   Antrazal
+//  *  Date            :   20-06-2025
+//  *  Description     :   This service class manages all business logic related to financial transactions
+//  *                      within the banking system. It includes functionalities for deposits, withdrawals,
+//  *                      undoing transactions within a time limit, and credit score adjustments based on 
+//  *                      minimum balance rules. It communicates with various repositories to ensure account 
+//  *                      balance consistency and maintains transactional records.
+//  *
+//  *******************************************************************************************************
+//  *  JIRA ID     Developer                                               
+//  *  AWC      <Rahul Jangid>(rahul.jangid@antrazal.com)       
+// ********************************************************************************************************
+
 public class TransactionService {
     private static final TransactionService instance = new TransactionService();
     private final TransactionRepo transactionRepo = TransactionRepo.getInstance();
@@ -65,7 +81,7 @@ public class TransactionService {
                     int currentScore = user.getCreditScore();
 
                     if (newBalance < bank.getMinBalance()) {
-                        
+
                         if (currentScore > 600) {
                             user.setCreditScore(Math.max(600, currentScore - 5));
                             userRepo.updateUser(user);
