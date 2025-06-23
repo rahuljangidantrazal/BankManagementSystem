@@ -4,6 +4,9 @@ import model.Account;
 import model.Bank;
 import model.Branch;
 import model.User;
+import service.UserService;
+import service.UserService.AddJointResult;
+import service.UserService.RegistrationResult;
 import controllers.AccountOwnerController;
 import controllers.BranchController;
 import controllers.UserController;
@@ -16,8 +19,6 @@ import static constants.ViewMessages.AllViewMessages.*;
 
 import java.util.List;
 import java.util.Scanner;
-
-import constants.ViewMessages.AllViewMessages;
 
 import static util.InputUtil.*;
 
@@ -52,36 +53,76 @@ public class RegisterUserView {
     private static final BranchController branchController = BranchController.getInstance();
     private static final AccountOwnerController accountOwnerController = AccountOwnerController.getInstance();
 
-    public static User registerNewCustomer(List<Bank> banks) {
-        Bank selectedBank = selectBank(banks);
-        if (selectedBank == null)
-            return null;
+    public static void handleUserRegistration() {
+        try {
+            RegistrationResult result = UserService.getInstance().registerUser();
 
-        List<Branch> branches = branchController.getBranchesByBankId(selectedBank.getBankId());
-        Branch selectedBranch = selectBranch(branches);
-        if (selectedBranch == null)
-            return null;
-
-        String aadhar = readValidatedField(ENTER_AADHAR, AadharValidator::getErrorMessage);
-
-        User existingUser = userController.findByAadhar(aadhar);
-        if (existingUser != null) {
-            boolean alreadyHasAccount = accountOwnerController.hasAccountInBank(existingUser.getUserId(),
-                    selectedBank.getBankId());
-            if (alreadyHasAccount) {
-                print(ACCOUNT_EXISTS);
-                return null;
+            if (!result.success) {
+                if (result.message != null) {
+                    print(result.message);
+                }
+                return;
             }
 
-            print(OPENING_ACC);
-            existingUser.setBranchId(selectedBranch.getBranchId());
-            return existingUser;
+            printAccountCreationSummary(
+                    result.account,
+                    result.branch,
+                    result.primaryUser,
+                    result.isJoint,
+                    result.jointUser != null ? result.jointUser.getUserId() : null);
+
+        } catch (Exception e) {
+            print("Unexpected error during registration: " + e.getMessage());
         }
+    }
 
-        User newUser = collectBasicUserDetails(false, aadhar);
-        newUser.setBranchId(selectedBranch.getBranchId());
+    public static void handleAddJointHolder(int accountId, int userId) {
+        try {
+            AddJointResult result = UserService.getInstance().addJointHolder(accountId, userId);
+            if (result.message != null) {
+                print(result.message);
+            }
+        } catch (Exception e) {
+            print("Unexpected error while adding joint holder: " + e.getMessage());
+        }
+    }
 
-        return newUser;
+    public static User registerNewCustomer(List<Bank> banks) {
+        try {
+            Bank selectedBank = selectBank(banks);
+            if (selectedBank == null)
+                return null;
+
+            List<Branch> branches = branchController.getBranchesByBankId(selectedBank.getBankId());
+            Branch selectedBranch = selectBranch(branches);
+            if (selectedBranch == null)
+                return null;
+
+            String aadhar = readValidatedField(ENTER_AADHAR, AadharValidator::getErrorMessage);
+
+            User existingUser = userController.findByAadhar(aadhar);
+            if (existingUser != null) {
+                boolean alreadyHasAccount = accountOwnerController.hasAccountInBank(
+                        existingUser.getUserId(), selectedBank.getBankId());
+                if (alreadyHasAccount) {
+                    print(ACCOUNT_EXISTS);
+                    return null;
+                }
+
+                print(OPENING_ACC);
+                existingUser.setBranchId(selectedBranch.getBranchId());
+                return existingUser;
+            }
+
+            User newUser = collectBasicUserDetails(false, aadhar);
+            newUser.setBranchId(selectedBranch.getBranchId());
+
+            return newUser;
+
+        } catch (Exception e) {
+            print("An unexpected error occurred during registration: " + e.getMessage());
+            return null;
+        }
     }
 
     public static Bank selectBank(List<Bank> banks) {
@@ -93,7 +134,7 @@ public class RegisterUserView {
         while (true) {
             print(AVAILABLE_BRANCHES);
             for (Bank bank : banks) {
-                System.out.printf(AllViewMessages.DISPLAY_BANK_INFO, bank.getBankName(), bank.getMinBalance());
+                System.out.printf(DISPLAY_BANK_INFO, bank.getBankName(), bank.getMinBalance());
             }
 
             System.out.print(ENTER_BANK_NAME);
@@ -120,7 +161,7 @@ public class RegisterUserView {
         while (true) {
             print(AVAILABLE_BRANCHES);
             for (Branch branch : branches) {
-                System.out.printf(AllViewMessages.DISPLAY_BRANCH_INFO, branch.getBranchName(), branch.getIfscCode());
+                System.out.printf(DISPLAY_BRANCH_INFO, branch.getBranchName(), branch.getIfscCode());
             }
 
             System.out.print(ENTER_BRANCH_NAME);
@@ -139,7 +180,7 @@ public class RegisterUserView {
     }
 
     public static User collectBasicUserDetails(boolean isJoint, String existingAadhar) {
-        String prefix = isJoint ? AllViewMessages.JOINT_ACCOUNT_PREFIX : "";
+        String prefix = isJoint ? JOINT_ACCOUNT_PREFIX : "";
 
         String firstName = readNonEmpty(prefix + ENTER_FIRST_NAME);
         String lastName = readNonEmpty(prefix + ENTER_LAST_NAME);
@@ -201,20 +242,20 @@ public class RegisterUserView {
 
     public static double readInitialDeposit(double minBalance) {
         while (true) {
-            System.out.printf(AllViewMessages.INITIAL_DEPOSIT_PROMPT, minBalance);
+            System.out.printf(INITIAL_DEPOSIT_PROMPT, minBalance);
             try {
                 double amount = Double.parseDouble(sc.nextLine());
                 if (amount >= minBalance)
                     return amount;
-                System.out.printf(AllViewMessages.MIN_BALANCE_ERROR + "%n", minBalance);
+                System.out.printf(MIN_BALANCE_ERROR + "%n", minBalance);
             } catch (NumberFormatException e) {
-                print(AllViewMessages.INVALID_AMOUNT_ERROR);
+                print(INVALID_AMOUNT_ERROR);
             }
         }
     }
 
     public static boolean askIsJointAccount() {
-        return askYesOrNo(AllViewMessages.IS_JOINT_ACCOUNT_PROMPT);
+        return askYesOrNo(IS_JOINT_ACCOUNT_PROMPT);
     }
 
     public static User collectBasicUserDetails(boolean isJoint) {
@@ -247,5 +288,4 @@ public class RegisterUserView {
         print(USER_AADHAR + user.getAadhar());
         print(USER_PAN + user.getPan());
     }
-
 }

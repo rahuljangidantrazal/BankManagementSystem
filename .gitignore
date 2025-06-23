@@ -1,0 +1,11 @@
+# Ignore DBConfig.java
+src/util/DBConfig.java
+
+# VS Code settings
+.vscode/
+
+# bin File
+.bin/
+
+# Lib Files
+.lib/

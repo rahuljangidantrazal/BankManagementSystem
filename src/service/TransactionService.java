@@ -11,6 +11,8 @@ import repo.BranchRepo;
 import repo.TransactionRepo;
 import repo.UserRepo;
 
+import static util.InputUtil.print;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -62,43 +64,47 @@ public class TransactionService {
         if (amount <= 0)
             return false;
 
-        Account acc = accountRepo.getAccountById(accountId);
-        if (acc == null || acc.getBalance() < amount)
-            return false;
+        try {
+            Account acc = accountRepo.getAccountById(accountId);
+            if (acc == null || acc.getBalance() < amount)
+                return false;
 
-        if (accountRepo.withdraw(accountId, amount)) {
+            if (!accountRepo.withdraw(accountId, amount))
+                return false;
+
             Transaction txn = new Transaction(accountId, performedBy, amount, TransactionTypeEnum.WITHDRAWAL,
                     LocalDateTime.now(), false);
 
             boolean txnSuccess = transactionRepo.insertTransaction(txn);
+            if (!txnSuccess)
+                return false;
 
-            if (txnSuccess) {
-                Bank bank = bankRepo.getBankByAccountId(accountId);
+            Bank bank = bankRepo.getBankByAccountId(accountId);
+            User user = userRepo.findById(performedBy);
+
+            if (bank != null && user != null) {
                 double newBalance = accountRepo.getBalance(accountId);
+                int currentScore = user.getCreditScore();
 
-                User user = userRepo.findById(performedBy);
-                if (bank != null && user != null) {
-                    int currentScore = user.getCreditScore();
-
-                    if (newBalance < bank.getMinBalance()) {
-
-                        if (currentScore > 600) {
-                            user.setCreditScore(Math.max(600, currentScore - 5));
-                            userRepo.updateUser(user);
-                        }
-                    } else {
-                        if (currentScore < 700) {
-                            user.setCreditScore(700);
-                            userRepo.updateUser(user);
-                        }
+                if (newBalance < bank.getMinBalance()) {
+                    if (currentScore > 600) {
+                        user.setCreditScore(Math.max(600, currentScore - 5));
+                        userRepo.updateUser(user);
+                    }
+                } else {
+                    if (currentScore < 700) {
+                        user.setCreditScore(700);
+                        userRepo.updateUser(user);
                     }
                 }
             }
 
-            return txnSuccess;
-        }
+            return true;
 
-        return false;
+        } catch (Exception e) {
+            print(e.getMessage());
+            return false;
+        }
     }
 
     public Transaction getUndoableTransaction(int accountId) {

@@ -7,7 +7,6 @@ import repo.*;
 import util.AccountUtil;
 import view.RegisterUserView;
 
-import static util.InputUtil.*;
 import static constants.Messages.UserServiceMessages.*;
 
 // *********************************************************************************************************
@@ -46,91 +45,80 @@ public class UserService {
     }
 
     public User validateAdminLogin(String username, String password) {
-        User user = userRepo.getUserByUsername(username);
+        try {
+            User user = userRepo.getUserByUsername(username);
 
-        if (user == null) {
-            print(ADMIN_NOT_FOUND);
+            if (user == null || !user.isActive() || !user.getPassword().equals(password)
+                    || user.getUserType() != UserTypeEnum.ADMIN)
+                return null;
+
+            return user;
+
+        } catch (Exception e) {
             return null;
         }
-
-        if (!user.isActive()) {
-            print(ADMIN_INACTIVE);
-            return null;
-        }
-
-        if (!user.getPassword().equals(password)) {
-            print(INVALID_PASSWORD);
-            return null;
-        }
-
-        if (user.getUserType() != UserTypeEnum.ADMIN) {
-            print(NOT_AN_ADMIN);
-            return null;
-        }
-
-        return user;
     }
 
-    public void registerUser() {
-        List<Bank> banks = bankRepo.getAllBanks();
-        if (banks.isEmpty()) {
-            print(NO_BANKS_FOUND_FOR_REGISTRATION);
-            return;
-        }
+    public RegistrationResult registerUser() {
+        try {
+            List<Bank> banks = bankRepo.getAllBanks();
+            if (banks.isEmpty())
+                return new RegistrationResult(false, NO_BANKS_FOUND_FOR_REGISTRATION);
 
-        User primaryUser = RegisterUserView.registerNewCustomer(banks);
-        if (primaryUser == null)
-            return;
+            User primaryUser = RegisterUserView.registerNewCustomer(banks);
+            if (primaryUser == null)
+                return new RegistrationResult(false, null);
 
-        Bank selectedBank = bankRepo.getBankById(primaryUser.getBranchId());
-        Branch selectedBranch = branchRepo.getBranchById(primaryUser.getBranchId());
+            Bank selectedBank = bankRepo.getBankById(primaryUser.getBranchId());
+            Branch selectedBranch = branchRepo.getBranchById(primaryUser.getBranchId());
+            primaryUser.setUserType(UserTypeEnum.CUSTOMER);
 
-        primaryUser.setUserType(UserTypeEnum.CUSTOMER);
-
-        if (primaryUser.getUserId() <= 0) {
-            if (!userRepo.insertUser(primaryUser)) {
-                print(USER_REGISTRATION_FAILED);
-                return;
-            }
-            primaryUser.setUserId(userRepo.getUserIdByUsername(primaryUser.getUsername()));
-        }
-
-        double initialDeposit = RegisterUserView.readInitialDeposit(selectedBank.getMinBalance());
-        boolean isJoint = RegisterUserView.askIsJointAccount();
-
-        Integer jointUserId = null;
-        if (isJoint) {
-            User jointUser = RegisterUserView.collectBasicUserDetails(true);
-            if (jointUser == null)
-                return;
-
-            jointUser.setUserType(UserTypeEnum.CUSTOMER);
-            jointUser.setBranchId(selectedBranch.getBranchId());
-
-            if (!userRepo.insertUser(jointUser)) {
-                print(JOINT_USER_REGISTRATION_FAILED);
-                return;
+            if (primaryUser.getUserId() <= 0) {
+                if (!userRepo.insertUser(primaryUser)) {
+                    return new RegistrationResult(false, USER_REGISTRATION_FAILED);
+                }
+                primaryUser.setUserId(userRepo.getUserIdByUsername(primaryUser.getUsername()));
             }
 
-            jointUserId = userRepo.getUserIdByUsername(jointUser.getUsername());
+            double initialDeposit = RegisterUserView.readInitialDeposit(selectedBank.getMinBalance());
+            boolean isJoint = RegisterUserView.askIsJointAccount();
+
+            Integer jointUserId = null;
+            User jointUser = null;
+
+            if (isJoint) {
+                jointUser = RegisterUserView.collectBasicUserDetails(true);
+                if (jointUser == null)
+                    return new RegistrationResult(false, null);
+
+                jointUser.setUserType(UserTypeEnum.CUSTOMER);
+                jointUser.setBranchId(selectedBranch.getBranchId());
+
+                if (!userRepo.insertUser(jointUser)) {
+                    return new RegistrationResult(false, JOINT_USER_REGISTRATION_FAILED);
+                }
+                jointUserId = userRepo.getUserIdByUsername(jointUser.getUsername());
+            }
+
+            String accountNumber = AccountUtil.generateAccountNumber(
+                    selectedBank.getBankName(), selectedBranch.getBranchId());
+            Account account = new Account(accountNumber, selectedBranch.getBranchId(), initialDeposit, "ACTIVE");
+
+            int accountId = accountRepo.insertAccount(account);
+            if (accountId == -1) {
+                return new RegistrationResult(false, ACCOUNT_CREATION_FAILED);
+            }
+
+            accountOwnerRepo.addOwner(accountId, primaryUser.getUserId(), true);
+            if (isJoint && jointUserId != null) {
+                accountOwnerRepo.addOwner(accountId, jointUserId, false);
+            }
+
+            return new RegistrationResult(true, null, account, selectedBranch, primaryUser, isJoint, jointUser);
+
+        } catch (Exception e) {
+            return new RegistrationResult(false, "Unexpected error during registration: " + e.getMessage());
         }
-
-        String accountNumber = AccountUtil.generateAccountNumber(selectedBank.getBankName(),
-                selectedBranch.getBranchId());
-        Account account = new Account(accountNumber, selectedBranch.getBranchId(), initialDeposit, "ACTIVE");
-
-        int accountId = accountRepo.insertAccount(account);
-        if (accountId == -1) {
-            print(ACCOUNT_CREATION_FAILED);
-            return;
-        }
-
-        accountOwnerRepo.addOwner(accountId, primaryUser.getUserId(), true);
-        if (isJoint && jointUserId != null) {
-            accountOwnerRepo.addOwner(accountId, jointUserId, false);
-        }
-
-        RegisterUserView.printAccountCreationSummary(account, selectedBranch, primaryUser, isJoint, jointUserId);
     }
 
     public User editUserDetails(int userId) {
@@ -149,46 +137,45 @@ public class UserService {
         return userRepo.updateUser(user);
     }
 
-    public void addJointHolder(int accountId, int primaryUserId) {
-        Account account = accountRepo.getAccountById(accountId);
-        if (account == null || !account.isActive()) {
-            print(ACCOUNT_NOT_FOUND);
-            return;
+    public AddJointResult addJointHolder(int accountId, int primaryUserId) {
+        try {
+            Account account = accountRepo.getAccountById(accountId);
+            if (account == null || !account.isActive()) {
+                return new AddJointResult(false, ACCOUNT_NOT_FOUND);
+            }
+
+            List<Integer> owners = accountOwnerRepo.getOwnerIdsByAccountId(accountId);
+            if (owners.size() > 1) {
+                return new AddJointResult(false, JOINT_ACCOUNT_EXISTS);
+            }
+
+            User primaryUser = userRepo.findById(primaryUserId);
+            if (primaryUser == null || !primaryUser.isActive()) {
+                return new AddJointResult(false, PRIMARY_USER_NOT_FOUND);
+            }
+
+            User jointUser = RegisterUserView.collectBasicUserDetails(true);
+            if (jointUser == null)
+                return new AddJointResult(false, null);
+
+            jointUser.setUserType(UserTypeEnum.CUSTOMER);
+            jointUser.setBranchId(primaryUser.getBranchId());
+
+            if (!userRepo.insertUser(jointUser)) {
+                return new AddJointResult(false, JOINT_USER_REGISTRATION_FAILED);
+            }
+
+            int jointUserId = userRepo.getUserIdByUsername(jointUser.getUsername());
+            if (jointUserId == -1) {
+                return new AddJointResult(false, JOINT_USER_ID_FETCH_FAILED);
+            }
+
+            accountOwnerRepo.addOwner(accountId, jointUserId, false);
+            return new AddJointResult(true, JOINT_HOLDER_ADDED_SUCCESS);
+
+        } catch (Exception e) {
+            return new AddJointResult(false, "Unexpected error adding joint holder: " + e.getMessage());
         }
-
-        List<Integer> owners = accountOwnerRepo.getOwnerIdsByAccountId(accountId);
-        if (owners.size() > 1) {
-            print(JOINT_ACCOUNT_EXISTS);
-            return;
-        }
-
-        User primaryUser = userRepo.findById(primaryUserId);
-        if (primaryUser == null || !primaryUser.isActive()) {
-            print(PRIMARY_USER_NOT_FOUND);
-            return;
-        }
-
-        print(REGISTERING_JOINT_HOLDER);
-        User jointUser = RegisterUserView.collectBasicUserDetails(true);
-        if (jointUser == null)
-            return;
-
-        jointUser.setUserType(UserTypeEnum.CUSTOMER);
-        jointUser.setBranchId(primaryUser.getBranchId());
-
-        if (!userRepo.insertUser(jointUser)) {
-            print(JOINT_USER_REGISTRATION_FAILED);
-            return;
-        }
-
-        int jointUserId = userRepo.getUserIdByUsername(jointUser.getUsername());
-        if (jointUserId == -1) {
-            print(JOINT_USER_ID_FETCH_FAILED);
-            return;
-        }
-
-        accountOwnerRepo.addOwner(accountId, jointUserId, false);
-        print(JOINT_HOLDER_ADDED_SUCCESS);
     }
 
     public User validateLoginByType(String username, String password, UserTypeEnum type) {
@@ -230,4 +217,39 @@ public class UserService {
         return userRepo.getAllPans();
     }
 
+    public static class RegistrationResult {
+        public boolean success;
+        public String message;
+        public Account account;
+        public Branch branch;
+        public User primaryUser;
+        public boolean isJoint;
+        public User jointUser;
+
+        public RegistrationResult(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+
+        public RegistrationResult(boolean success, String message, Account account, Branch branch, User primaryUser,
+                boolean isJoint, User jointUser) {
+            this.success = success;
+            this.message = message;
+            this.account = account;
+            this.branch = branch;
+            this.primaryUser = primaryUser;
+            this.isJoint = isJoint;
+            this.jointUser = jointUser;
+        }
+    }
+
+    public static class AddJointResult {
+        public boolean success;
+        public String message;
+
+        public AddJointResult(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+    }
 }
